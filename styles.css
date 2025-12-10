@@ -1,0 +1,1403 @@
+/* =========================================
+   1. VARIABLES & THEME CONFIGURATION
+   ========================================= */
+:root {
+    /* Dark Theme (Default) */
+    --bg-color: #0a0a12;
+    --card-bg: #14141e;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0b0;
+    --accent-blue: #00f3ff;
+    --accent-purple: #bc13fe;
+    --cursor-color: #00f3ff;
+    --nav-bg: rgba(10, 10, 18, 0.9);
+    
+    /* Fonts */
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-body: 'Poppins', sans-serif;
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] {
+    --bg-color: #f0f2f5;
+    --card-bg: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555555;
+    --accent-blue: #0066cc;
+    --accent-purple: #8800cc;
+    --cursor-color: #0066cc;
+    --nav-bg: rgba(240, 242, 245, 0.9);
+}
+
+/* =========================================
+   2. GLOBAL RESET & CORE STYLES
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none; /* Hides default cursor for custom one */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    transition: background-color 0.3s, color 0.3s;
+    line-height: 1.6;
+
+    /* ... existing styles ... */
+    overflow-x: hidden; /* FORCES no horizontal scroll */
+    width: 100%;
+
+}
+
+/* Scroll Progress Bar */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--accent-purple);
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.1s;
+}
+
+/* =========================================
+   3. CUSTOM CURSOR (FIXED Z-INDEX)
+   ========================================= */
+
+/* The Arrow Pointer */
+.cursor-dot {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    /* CHANGE THIS NUMBER TO 30000 */
+    z-index: 30000; /* Higher than the banner (20000) */
+    
+    pointer-events: none; 
+    transform: translate(-5px, -3px);
+}
+
+/* Style the Arrow Path */
+.cursor-dot svg path {
+    stroke: #000;
+    stroke-width: 1.5px;
+    fill: var(--cursor-color);
+    animation: fillCycle 4s infinite alternate;
+}
+
+/* Mobile Hide */
+@media (max-width: 768px) {
+    .cursor-dot { display: none; }
+    * { cursor: auto; }
+}
+
+/* =========================================
+   4. NAVIGATION
+   ========================================= */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 5%;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    background: var(--nav-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.logo {
+    font-family: var(--font-mono);
+    color: var(--accent-blue);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: var(--accent-blue);
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+#theme-toggle:hover {
+    color: var(--accent-blue);
+    transform: rotate(15deg);
+}
+
+/* =========================================
+   5. HERO SECTION
+   ========================================= */
+#hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 10%;
+}
+
+#neural-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+.hero-content {
+    text-align: center;
+    z-index: 1;
+    max-width: 800px;
+}
+
+.greeting {
+    font-family: var(--font-mono);
+    color: var(--accent-purple);
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 4rem;
+    margin: 10px 0;
+    line-height: 1.1;
+}
+
+
+
+
+.highlight {
+    color: var(--accent-blue);
+    text-shadow: 0 0 20px rgba(0,243,255,0.2);
+}
+
+.typing-text {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.cursor-blink {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.bio {
+    color: var(--text-secondary);
+    margin: 20px auto 40px;
+    font-size: 1.1rem;
+    max-width: 600px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    font-family: var(--font-mono);
+}
+
+.primary-btn {
+    background: var(--accent-blue);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0,243,255,0.3);
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 25px rgba(0,243,255,0.5);
+}
+
+.secondary-btn {
+    border: 1px solid var(--accent-purple);
+    color: var(--accent-purple);
+    background: transparent;
+}
+
+.secondary-btn:hover {
+    background: var(--accent-purple);
+    color: #fff;
+}
+
+/* =========================================
+   6. SECTIONS GENERAL
+   ========================================= */
+section {
+    padding: 100px 10%;
+}
+
+.section-title {
+    font-family: var(--font-mono);
+    color: var(--accent-purple);
+    margin-bottom: 50px;
+    font-size: 2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 60px;
+    height: 3px;
+    background: var(--accent-blue);
+}
+
+/* =========================================
+   7. SKILLS & STATS
+   ========================================= */
+.skills-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.skill-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s;
+}
+
+.skill-card:hover {
+    border-color: var(--accent-blue);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: translateY(-5px);
+}
+
+.skill-card h3 {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--text-primary);
+}
+
+.skill-card h3 i {
+    color: var(--accent-blue);
+}
+
+.tags span {
+    display: inline-block;
+    background: rgba(0,243,255,0.08);
+    color: var(--accent-blue);
+    padding: 6px 14px;
+    margin: 5px 3px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    border: 1px solid rgba(0,243,255,0.1);
+}
+
+/* =========================================
+   8. PROJECTS GRID (Updated)
+   ========================================= */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.project-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-purple);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.card-header i {
+    font-size: 1.5rem;
+    color: var(--accent-blue);
+}
+
+/* Optional: If you use real images later */
+.project-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.tech-stack {
+    margin: 15px 0;
+    flex-grow: 1; /* Pushes links to bottom */
+}
+
+.tech-stack span {
+    color: var(--accent-purple);
+    font-size: 0.85rem;
+    margin-right: 10px;
+    font-family: var(--font-mono);
+}
+
+/* New Buttons for Source & Live Demo */
+.links {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-link {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: 0.3s;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+}
+
+.btn-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.btn-link.live {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+    background: rgba(0, 243, 255, 0.05);
+}
+
+.btn-link.live:hover {
+    background: var(--accent-blue);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+/* =========================================
+   9. TIMELINE (Education)
+   ========================================= */
+.timeline {
+    position: relative;
+    max-width: 800px;
+}
+
+.timeline-item {
+    border-left: 2px solid var(--accent-blue);
+    padding-left: 30px;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-blue);
+}
+
+.date {
+    font-family: var(--font-mono);
+    color: var(--accent-blue);
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.timeline-item h3 {
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.highlight-text {
+    color: var(--accent-purple);
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.cert-list {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.cert-list li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-secondary);
+}
+
+.cert-list li i {
+    color: var(--accent-purple);
+    font-size: 0.8rem;
+}
+
+/* =========================================
+   10. CONTACT FORM
+   ========================================= */
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+form {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    position: relative;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 15px;
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-primary);
+    border-radius: 5px;
+    outline: none;
+    transition: 0.3s;
+    font-family: var(--font-body);
+}
+
+input:focus, textarea:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 10px rgba(0,243,255,0.1);
+}
+
+label {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    color: var(--text-secondary);
+    pointer-events: none;
+    transition: 0.3s;
+    background: var(--card-bg);
+    padding: 0 5px;
+}
+
+input:focus ~ label, input:not(:placeholder-shown) ~ label,
+textarea:focus ~ label, textarea:not(:placeholder-shown) ~ label {
+    top: -10px;
+    font-size: 0.8rem;
+    color: var(--accent-blue);
+}
+
+.contact-info {
+    flex: 1;
+    min-width: 250px;
+    color: var(--text-secondary);
+    line-height: 2.5;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.contact-info i {
+    color: var(--accent-blue);
+    width: 25px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.socials {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    font-size: 1.5rem;
+}
+
+.socials a {
+    color: var(--text-secondary);
+    transition: 0.3s;
+}
+
+.socials a:hover {
+    color: var(--accent-blue);
+    transform: translateY(-3px);
+}
+
+/* =========================================
+   11. UI ELEMENTS & NOTIFICATIONS
+   ========================================= */
+/* Floating Music Button */
+.music-fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: var(--accent-purple);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 0 20px rgba(188,19,254,0.5);
+    z-index: 100;
+    transition: 0.3s;
+}
+
+.music-fab:hover {
+    transform: scale(1.1);
+}
+
+.music-fab.playing {
+    animation: pulse 1.5s infinite;
+    background: #ff0055;
+    box-shadow: 0 0 20px rgba(255,0,85,0.6);
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,0,85, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(255,0,85, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,0,85, 0); }
+}
+
+/* Notifications */
+#notification-container {
+    position: fixed;
+    top: 80px; /* Below navbar */
+    right: 20px;
+    z-index: 10001;
+}
+
+.notification {
+    background: var(--card-bg);
+    color: var(--text-primary);
+    padding: 15px 25px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--accent-blue);
+    border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideIn 0.5s ease;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* =========================================
+   12. ANIMATIONS & RESPONSIVE
+   ========================================= */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 0.8s all ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    h1 { font-size: 2.5rem; }
+    
+    .nav-links {
+        display: none; /* Mobile menu logic not in JS, kept simple */
+    }
+    
+    .hero-content {
+        padding-top: 60px;
+    }
+    
+    .contact-container {
+        flex-direction: column;
+    }
+    
+    /* Hide custom cursor on touch devices */
+    .cursor-dot, .cursor-outline {
+        display: none;
+    }
+    * {
+        cursor: auto;
+    }
+    
+    .music-fab {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+}
+
+
+/* =========================================
+   RICK ROLL BANNER STYLES
+   ========================================= */
+.rickroll-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Dark overlay */
+    z-index: 20000; /* On top of EVERYTHING */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    /* Hide it by default */
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+    backdrop-filter: blur(5px);
+}
+
+/* Class to show the banner */
+.rickroll-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.banner-content {
+    background: #ff0055; /* Hot Pink/Red */
+    color: white;
+    padding: 40px;
+    border-radius: 20px;
+    border: 5px solid #fff;
+    box-shadow: 0 0 50px #ff0055;
+    animation: shake 0.5s infinite; /* Prank Shake Effect */
+    transform: scale(0.8);
+    transition: 0.3s;
+}
+
+.rickroll-overlay.active .banner-content {
+    transform: scale(1);
+}
+
+.banner-content h1 { font-size: 3rem; margin-bottom: 10px; color: #ffff00; }
+.banner-content h2 { font-size: 2.5rem; line-height: 1.2; margin-bottom: 20px; font-weight: 900; }
+.banner-content p { font-size: 1.2rem; margin-bottom: 30px; font-family: monospace; }
+
+.close-btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background: white;
+    color: #ff0055;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #ccc;
+    transition: 0.1s;
+}
+
+.close-btn:active { transform: translateY(5px); box-shadow: none; }
+
+/* Shake Animation */
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+/* =========================================
+   BACKGROUND ANIMATIONS (Cyber Orbs)
+   ========================================= */
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px); /* Makes them look like glowing gas */
+    z-index: -1; /* Behind the text */
+    opacity: 0.4;
+    animation: floatOrb 10s infinite alternate ease-in-out;
+}
+
+/* =========================================
+   BACKGROUND ANIMATIONS (VISIBLE ORBS)
+   ========================================= */
+section {
+    position: relative;
+    overflow: hidden; /* Keeps orbs inside the section */
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px); /* Slightly less blur so they are more defined */
+    z-index: 0; /* Sit right on top of the section background */
+    opacity: 0.6; /* Increased opacity for visibility */
+    pointer-events: none; /* Let clicks pass through */
+    animation: floatOrb 10s infinite alternate ease-in-out;
+}
+
+/* Ensure text and cards sit ON TOP of the orbs */
+.section-title, 
+.skills-container, 
+.project-grid, 
+.timeline, 
+.contact-container {
+    position: relative;
+    z-index: 2; /* Higher than the orb */
+}
+
+/* Orb 1: Neon Blue (Top Left) */
+.orb-1 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
+    top: -50px;
+    left: -50px;
+}
+
+/* Orb 2: Neon Purple (Bottom Right) */
+.orb-2 {
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%);
+    bottom: -50px;
+    right: -50px;
+    animation-delay: -5s;
+}
+
+@keyframes floatOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, 40px) scale(1.1); }
+    100% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+
+
+/* =========================================
+   BACKGROUND ANIMATIONS (CYBER HUD RINGS)
+   ========================================= */
+section {
+    position: relative;
+    overflow: hidden; 
+}
+
+/* Base Ring Style */
+.cyber-ring {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 0; /* Behind text */
+    opacity: 0.15; /* Subtle enough to not block text */
+    pointer-events: none;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+}
+
+/* Ring Type 1: The Blue Data Spinner */
+.ring-1 {
+    width: 500px;
+    height: 500px;
+    border: 2px dashed var(--accent-blue); /* Dashed line looks techy */
+    top: -100px;
+    left: -150px;
+    animation: spinRight 30s linear infinite;
+}
+
+/* Ring Type 2: The Purple System Core */
+.ring-2 {
+    width: 600px;
+    height: 600px;
+    border: 1px solid var(--accent-purple); /* Thin solid line */
+    border-left: 5px solid var(--accent-purple); /* Thicker on one side */
+    bottom: -150px;
+    right: -150px;
+    animation: spinLeft 40s linear infinite;
+}
+
+/* Inner Rings for extra detail (Optional nesting) */
+.ring-1::after {
+    content: '';
+    position: absolute;
+    top: 50px; left: 50px; right: 50px; bottom: 50px;
+    border-radius: 50%;
+    border: 1px dotted var(--accent-blue);
+    animation: spinLeft 15s linear infinite;
+}
+
+/* Animations */
+@keyframes spinRight {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes spinLeft {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Ensure content sits on top */
+.section-title, .skills-container, .project-grid, .timeline, .contact-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================================
+   BACKGROUND ANIMATIONS (THE TESSERACT)
+   ========================================= */
+section {
+    position: relative;
+    overflow: hidden; 
+}
+
+/* Container for the shape */
+.tesseract {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    z-index: 0;
+    opacity: 0.2; /* Subtle background */
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* The Outer Diamond */
+.tesseract::before {
+    content: '';
+    position: absolute;
+    width: 100%; height: 100%;
+    border: 2px solid var(--accent-blue);
+    transform: rotate(45deg); /* Turn square into diamond */
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+    animation: rotate-cw 20s linear infinite;
+}
+
+/* The Inner Diamond */
+.tesseract::after {
+    content: '';
+    position: absolute;
+    width: 60%; height: 60%; /* Smaller */
+    border: 2px solid var(--accent-purple);
+    transform: rotate(45deg);
+    box-shadow: 0 0 20px rgba(188, 19, 254, 0.2);
+    animation: rotate-ccw 15s linear infinite;
+}
+
+/* A pulsing core in the center */
+.tesseract-core {
+    position: absolute;
+    width: 20%; height: 20%;
+    background: var(--text-primary);
+    transform: rotate(45deg);
+    opacity: 0.5;
+    animation: pulse-size 2s ease-in-out infinite alternate;
+}
+
+/* ANIMATIONS */
+@keyframes rotate-cw {
+    0% { transform: rotate(45deg); }
+    100% { transform: rotate(405deg); } /* 45 + 360 */
+}
+
+@keyframes rotate-ccw {
+    0% { transform: rotate(45deg); }
+    100% { transform: rotate(-315deg); } /* 45 - 360 */
+}
+
+@keyframes pulse-size {
+    0% { transform: rotate(45deg) scale(0.8); opacity: 0.3; }
+    100% { transform: rotate(45deg) scale(1.2); opacity: 0.8; }
+}
+
+/* Ensure content sits on top */
+.section-title, .skills-container, .project-grid, .timeline, .contact-container {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================
+   BACKGROUND ANIMATIONS (THE HEX-HIVE)
+   ========================================= */
+section {
+    position: relative;
+    overflow: hidden; 
+}
+
+/* The Hexagon Shape */
+.cyber-hex {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, var(--accent-blue), transparent);
+    z-index: 0;
+    opacity: 0.1; /* Very subtle ghost look */
+    pointer-events: none;
+    
+    /* Cut into a Hexagon */
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    
+    /* Glow */
+    filter: drop-shadow(0 0 10px var(--accent-blue));
+    
+    /* Animation */
+    animation: floatHex 8s ease-in-out infinite alternate;
+}
+
+/* Variant: Purple Hex */
+.hex-purple {
+    background: linear-gradient(45deg, var(--accent-purple), transparent);
+    filter: drop-shadow(0 0 10px var(--accent-purple));
+    animation-duration: 12s; /* Slower */
+}
+
+/* Variant: Outline Mode (Wireframe) */
+.hex-wire {
+    background: transparent;
+    border: 2px solid var(--accent-blue);
+    /* Note: Borders don't work well with clip-path, so we use a pseudo-element trick or just keep it solid for simplicity. 
+       Let's stick to the gradient fade for a 'hologram' look. */
+    opacity: 0.15;
+}
+
+/* ANIMATIONS */
+@keyframes floatHex {
+    0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.1; }
+    50% { opacity: 0.2; } /* Pulse brighter */
+    100% { transform: translateY(-30px) rotate(10deg) scale(1.1); opacity: 0.1; }
+}
+
+/* Ensure content sits on top */
+.section-title, .skills-container, .project-grid, .timeline, .contact-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================================
+   OPTION 2: SOUNDWAVE EQUALIZER
+   ========================================= */
+.soundwave-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    z-index: 0;
+    opacity: 0.1; /* Very subtle */
+    pointer-events: none;
+}
+
+.wave-bar {
+    width: 40px;
+    background: var(--accent-blue);
+    animation: waveBounce 1.5s ease-in-out infinite alternate;
+}
+
+.wave-purple {
+    background: var(--accent-purple);
+    animation-duration: 2s;
+}
+
+@keyframes waveBounce {
+    0% { height: 10%; }
+    100% { height: 60%; }
+}
+
+
+
+
+/* =========================================
+   OPTION 3: TACTICAL RADAR (FINAL FIX)
+   ========================================= */
+.radar-sweep {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    
+    /* Z-INDEX FIX: Sits behind content (level 2) but inside section */
+    z-index: 0; 
+    
+    /* CLICK FIX: Ensures you can click buttons underneath it */
+    pointer-events: none; 
+    
+    opacity: 0.4; /* High visibility */
+    
+    /* 1. The Outer Rim */
+    border: 2px solid var(--accent-blue);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
+
+    /* 2. The Tactical Grid (Crosshairs & Circles) */
+    background: 
+        /* Vertical Line */
+        linear-gradient(90deg, transparent 49.5%, var(--accent-blue) 50%, transparent 50.5%),
+        /* Horizontal Line */
+        linear-gradient(0deg, transparent 49.5%, var(--accent-blue) 50%, transparent 50.5%),
+        /* Concentric Circles */
+        repeating-radial-gradient(
+            transparent 0, 
+            transparent 29%, 
+            rgba(0, 243, 255, 0.1) 30%
+        );
+}
+
+/* 3. The Spinning Scanner Beam */
+.radar-sweep::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 50%;
+    
+    /* The Sweep Gradient */
+    background: conic-gradient(
+        from 0deg, 
+        transparent 0deg, 
+        rgba(0, 243, 255, 0.05) 200deg, /* Faint Trail */
+        var(--accent-blue) 360deg      /* Bright Leading Edge */
+    );
+    
+    animation: rotateScan 4s linear infinite;
+}
+
+/* 4. The Center Target Dot */
+.radar-sweep::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 12px; height: 12px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px var(--accent-blue);
+}
+
+@keyframes rotateScan {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* FORCE CONTENT TO FRONT */
+/* Make sure this block exists in your CSS! */
+.section-title, 
+.project-grid, 
+.skills-container, 
+.timeline, 
+.contact-container {
+    position: relative;
+    z-index: 2; /* Content sits on top of Radar (0) */
+}
+
+
+
+
+
+
+
+/* =========================================
+   LIGHT MODE VISIBILITY FIXES
+   (Makes background effects visible on white)
+   ========================================= */
+
+[data-theme="light"] .cyber-ring,
+[data-theme="light"] .tesseract,
+[data-theme="light"] .cyber-hex,
+[data-theme="light"] .matrix-stream,
+[data-theme="light"] .soundwave-container,
+[data-theme="light"] .radar-sweep,
+[data-theme="light"] .orb {
+    /* 1. Increase Opacity: Make them 3x darker in light mode */
+    opacity: 0.35 !important; 
+    
+    /* 2. Blend Mode: 'Multiply' makes colors soak into the white background */
+    mix-blend-mode: multiply;
+}
+
+/* Fix for Tesseract Lines in Light Mode */
+[data-theme="light"] .tesseract::before,
+[data-theme="light"] .tesseract::after {
+    /* Thicker lines */
+    border-width: 3px;
+    /* Remove the neon glow (doesn't look good on white) and use shadow */
+    box-shadow: 0 0 5px rgba(0,0,0,0.1); 
+}
+
+/* Fix for Matrix Rain in Light Mode */
+[data-theme="light"] .matrix-stream {
+    /* Darker gradient */
+    background: linear-gradient(to bottom, transparent, var(--accent-blue));
+    filter: brightness(0.8);
+}
+
+/* Fix for Orbs in Light Mode */
+[data-theme="light"] .orb {
+    /* Less blur so they are distinct blobs */
+    filter: blur(40px);
+    opacity: 0.5 !important;
+}
+
+/* Fix for Hexagons in Light Mode */
+[data-theme="light"] .cyber-hex {
+    /* Add a subtle drop shadow so they don't disappear */
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+}
+
+/* =========================================
+   BACKGROUND ANIMATIONS (DIGITAL CONSTELLATIONS)
+   ========================================= */
+section {
+    position: relative;
+    overflow: hidden; 
+}
+
+/* The Container */
+.constellation {
+    position: absolute;
+    z-index: 0; /* Behind everything */
+    opacity: 0.15; /* Very subtle */
+    pointer-events: none;
+    animation: drift 20s infinite linear alternate;
+}
+
+/* The Shape: A triangle of nodes */
+.constellation::before {
+    content: '';
+    position: absolute;
+    width: 10px; height: 10px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    box-shadow: 
+        50px 80px 0 var(--accent-blue),
+        120px -40px 0 var(--accent-blue);
+}
+
+/* The Lines connecting them */
+.constellation::after {
+    content: '';
+    position: absolute;
+    top: 5px; left: 5px;
+    width: 0; height: 0;
+    border-left: 50px solid transparent;
+    border-right: 70px solid transparent;
+    border-bottom: 100px solid rgba(0, 243, 255, 0.2); /* Blue tint */
+    transform: rotate(15deg);
+}
+
+/* Variant: Purple Constellation */
+.const-purple::before {
+    background: var(--accent-purple);
+    box-shadow: 
+        -60px 50px 0 var(--accent-purple),
+        40px 100px 0 var(--accent-purple);
+}
+
+.const-purple::after {
+    border-bottom-color: rgba(188, 19, 254, 0.2); /* Purple tint */
+    transform: rotate(-20deg);
+}
+
+/* Animation: Slow Drift */
+@keyframes drift {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(30px, 40px) rotate(5deg); }
+}
+
+/* Light Mode Fix */
+[data-theme="light"] .constellation {
+    opacity: 0.3;
+    filter: blur(2px);
+}
+
+/* Ensure content sits on top */
+.section-title, .project-grid, .timeline, .contact-container {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================
+   SECRET TERMINAL CONSOLE
+   ========================================= */
+/* The Trigger Button in Footer */
+#terminal-trigger {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+#terminal-trigger:hover {
+    color: var(--accent-blue);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* The Modal Overlay */
+.terminal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 40000; /* Higher than everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Hidden by default */
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.terminal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* The Window */
+.terminal-window {
+    width: 600px;
+    height: 400px;
+    background: #0c0c0c; /* Deep Black */
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(0, 243, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #333;
+    font-family: 'JetBrains Mono', monospace; /* Hacker Font */
+    transform: scale(0.9);
+    transition: 0.3s;
+}
+
+.terminal-overlay.open .terminal-window {
+    transform: scale(1);
+}
+
+/* Header (Mac Style) */
+.terminal-header {
+    background: #1a1a1a;
+    padding: 10px 15px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #333;
+}
+
+.dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; cursor: pointer; }
+.red { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
+
+.terminal-title {
+    margin-left: auto; margin-right: auto;
+    color: #999; font-size: 0.9rem;
+}
+
+/* Terminal Body */
+.terminal-body {
+    flex: 1;
+    padding: 15px;
+    color: #00f3ff; /* Hacker Green/Blue */
+    overflow-y: auto;
+    font-size: 0.9rem;
+}
+
+.cmd-keyword { color: #bc13fe; font-weight: bold; }
+
+.input-line { display: flex; align-items: center; margin-top: 5px; }
+.prompt { color: #27c93f; margin-right: 10px; } /* Green Prompt */
+
+/* Invisible Input */
+#terminal-input {
+    background: transparent;
+    border: none;
+    color: #e0e0e0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    flex: 1;
+    outline: none;
+}
+
+/* Scrollbar Styling */
+.terminal-body::-webkit-scrollbar { width: 8px; }
+.terminal-body::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
