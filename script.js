@@ -162,86 +162,86 @@ function typeEffect() {
 document.addEventListener('DOMContentLoaded', typeEffect);
 
 
-/* =========================================
-   5. SOUND & MUSIC MANAGER
-   ========================================= */
-let userInteracted = false;
+// /* =========================================
+//    5. SOUND & MUSIC MANAGER
+//    ========================================= */
+// let userInteracted = false;
 
-// Enable audio context on first click
-document.addEventListener('click', () => {
-    userInteracted = true;
-}, { once: true });
+// // Enable audio context on first click
+// document.addEventListener('click', () => {
+//     userInteracted = true;
+// }, { once: true });
 
-function playClickSound() {
-    if (clickSound && userInteracted) {
-        clickSound.currentTime = 0;
-        clickSound.volume = 0.4;
-        clickSound.play().catch(() => {});
-    }
-}
+// function playClickSound() {
+//     if (clickSound && userInteracted) {
+//         clickSound.currentTime = 0;
+//         clickSound.volume = 0.4;
+//         clickSound.play().catch(() => {});
+//     }
+// }
 
-function playTypeSound() {
-    if (typeSound && userInteracted) {
-        typeSound.currentTime = 0;
-        typeSound.volume = 0.1; // Very quiet
-        typeSound.play().catch(() => {});
-    }
-}
+// function playTypeSound() {
+//     if (typeSound && userInteracted) {
+//         typeSound.currentTime = 0;
+//         typeSound.volume = 0.1; // Very quiet
+//         typeSound.play().catch(() => {});
+//     }
+// }
 
-// Global Click Sound Listener
-document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('click', playClickSound);
-});
+// // Global Click Sound Listener
+// document.querySelectorAll('a, button').forEach(el => {
+//     el.addEventListener('click', playClickSound);
+// });
 
-/* =========================================
-   RICK ROLL LOGIC (FIXED)
-   ========================================= */
-const banner = document.getElementById('rickroll-banner');
-const closePrankBtn = document.getElementById('close-prank-btn');
-let isMusicPlaying = false;
+// /* =========================================
+//    RICK ROLL LOGIC (FIXED)
+//    ========================================= */
+// const banner = document.getElementById('rickroll-banner');
+// const closePrankBtn = document.getElementById('close-prank-btn');
+// let isMusicPlaying = false;
 
-// 1. Play Music & Show Banner
-musicBtn.addEventListener('click', () => {
-    if (!isMusicPlaying) {
-        music.volume = 1.0;
-        music.play().then(() => {
-            musicBtn.classList.add('playing');
-            // Show Banner
-            banner.classList.add('active');
-            isMusicPlaying = true;
-        }).catch(err => {
-            console.error(err); // Check console if it fails
-            showNotification('Audio Error: Check file name!', 'error');
-        });
-    } else {
-        stopPrank();
-    }
-});
+// // 1. Play Music & Show Banner
+// musicBtn.addEventListener('click', () => {
+//     if (!isMusicPlaying) {
+//         music.volume = 1.0;
+//         music.play().then(() => {
+//             musicBtn.classList.add('playing');
+//             // Show Banner
+//             banner.classList.add('active');
+//             isMusicPlaying = true;
+//         }).catch(err => {
+//             console.error(err); // Check console if it fails
+//             showNotification('Audio Error: Check file name!', 'error');
+//         });
+//     } else {
+//         stopPrank();
+//     }
+// });
 
-// 2. Stop Music & Hide Banner
-function stopPrank() {
-    music.pause();
-    music.currentTime = 0;
-    musicBtn.classList.remove('playing');
-    banner.classList.remove('active');
-    isMusicPlaying = false;
-    showNotification('Prank stopped.', 'success');
-}
+// // 2. Stop Music & Hide Banner
+// function stopPrank() {
+//     music.pause();
+//     music.currentTime = 0;
+//     musicBtn.classList.remove('playing');
+//     banner.classList.remove('active');
+//     isMusicPlaying = false;
+//     showNotification('Prank stopped.', 'success');
+// }
 
-// 3. Attach Click Event to the "Forgive Me" Button
-if (closePrankBtn) {
-    closePrankBtn.addEventListener('click', stopPrank);
-}
+// // 3. Attach Click Event to the "Forgive Me" Button
+// if (closePrankBtn) {
+//     closePrankBtn.addEventListener('click', stopPrank);
+// }
 
-// Function to Stop the Prank (called by the 'Forgive Me' button)
-function stopPrank() {
-    music.pause();
-    music.currentTime = 0; // Reset song
-    musicBtn.classList.remove('playing');
-    banner.classList.remove('active'); // Hide Banner
-    isMusicPlaying = false;
-    showNotification('You are forgiven... for now.', 'success');
-}
+// // Function to Stop the Prank (called by the 'Forgive Me' button)
+// function stopPrank() {
+//     music.pause();
+//     music.currentTime = 0; // Reset song
+//     musicBtn.classList.remove('playing');
+//     banner.classList.remove('active'); // Hide Banner
+//     isMusicPlaying = false;
+//     showNotification('You are forgiven... for now.', 'success');
+// }
 
 
 /* =========================================
